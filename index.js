@@ -167,12 +167,19 @@ framework.hears(listEventsCommand, async function (bot, trigger) {
 })
 
 framework.hears(registerCommand, async function(bot, trigger) {
+
   responded = true;
   const event = trigger.message.text.split(' ')[2];
-  const person = trigger.person.id;
+  const person = trigger.person;
+  const data = {
+    id: person.id,
+    emails: person.emails,
+    name: person.displayName
+  }
+  
   try {
     const res = await axios({
-      method: 'POST',
+      method: 'PUT',
       url: `${EVENTS_BASE_URL}/register`,
       data: {
         event,
